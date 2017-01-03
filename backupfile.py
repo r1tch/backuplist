@@ -31,7 +31,7 @@ class BackupFile:
         return self.relpath != ""
 
     def __eq__(self, other):
-        return self.__dict__ == other.__dict__
+        return self and other and self.__dict__ == other.__dict__
 
     def __ne__(self, other):
         return not self == other
