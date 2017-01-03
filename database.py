@@ -2,7 +2,7 @@
 
 import os
 import sys
-from shutil import copyfile
+from shutil import copyfile, copystat
 
 from backupfile import BackupFile
 from dvdmetadata import DvdMetadata
@@ -96,6 +96,7 @@ class Database:
             return
 
         copyfile(fullpath, target_file)
+        copystat(fullpath, target_file)
         print("{} -> {}".format(fullpath, target_dir))
 
     def _addNewFile(self, backupfile):
