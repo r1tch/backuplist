@@ -53,6 +53,9 @@ class Database:
 
         for parent, dirs, files in os.walk(filePath):
             for f in files:
+                if f.startswith(".") :
+                    print("Not adding hidden file:{}".format(f))
+                    continue
                 fullpath = os.path.join(parent, f)
                 relpath = os.path.relpath(fullpath, filePath)
                 do_md5_calc = False
@@ -96,6 +99,9 @@ class Database:
         print("{} -> {}".format(fullpath, target_dir))
 
     def _addNewFile(self, backupfile):
+        if not backupfile:
+            raise TypeError("Attempting to add NoneType to backupFileSet")
+
         if backupfile in self.backupFileSet:
             return
 
