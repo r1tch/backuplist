@@ -44,7 +44,7 @@ class BackupFile:
         self.csv_string = csv_string
 
     def __str__(self):
-        return "{} ({} - {})".format(self.relpath, self.dvdmetadata.label, self.dvdmetadata.timestamp)
+        return "{} {} ({} - {})".format(self.relpath, self.timestamp, self.dvdmetadata.label, self.dvdmetadata.timestamp)
 
     def fromCsv(self, csvString):
         # format:
@@ -58,7 +58,7 @@ class BackupFile:
             self.relpath = row[2]
             self.size = int(row[3])
             self.md5sum = row[4]
-            self.timestamp = float(row[5])
+            self.timestamp = int(float(row[5]))
 
             if row[6] and row[7]:
                 self.alias_of = copy.copy(self)

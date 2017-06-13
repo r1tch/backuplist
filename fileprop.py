@@ -7,7 +7,7 @@ class FileProp:
     def __init__(self, backupfile):
         self.basename = os.path.basename(backupfile.relpath)
         self.size = backupfile.size
-        self.timestamp = backupfile.timestamp
+        self.timestamp = int(backupfile.timestamp)
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
