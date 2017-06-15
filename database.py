@@ -8,6 +8,7 @@ from backupfile import BackupFile
 from dvdmetadata import DvdMetadata
 from fileprop import FileProp
 
+
 class Database:
 
     DbFile = os.path.expanduser("~/.backuplist/database.csv")
@@ -29,7 +30,6 @@ class Database:
             print("Reading {}...".format(Database.DbFile))
             self.readDatabase(searchString)
             print("Done.")
-
 
     def add(self, dvd_path):
         dvd_path = os.path.abspath(dvd_path)
@@ -53,17 +53,24 @@ class Database:
 
         for parent, dirs, files in os.walk(filePath):
             for f in files:
-                if f.startswith(".") :
-                    print("Not adding hidden file:{}".format(f))
+                if f.startswith("."):
+                    print("Ignoring hidden file:{}".format(f))
                     continue
                 fullpath = os.path.join(parent, f)
                 relpath = os.path.relpath(fullpath, filePath)
                 do_md5_calc = False
-                backupfile_nomd5 = BackupFile(fullpath, relpath, None, do_md5_calc)
+                backupfile_nomd5 = BackupFile(fullpath, relpath, None,
+                                              do_md5_calc)
                 fileprop = FileProp(backupfile_nomd5)
 
+                if fileprop.size > (4 * 1024 * 1024 * 1024 - 1):
+                    print("Ignoring file >= 4G: {} (size:{})".format(
+                        f, fileprop.size))
+                    continue
+
                 if fileprop in self.backupFileDict:
-                    print("Already in DB: {}".format(self.backupFileDict[fileprop].relpath))
+                    relpath = self.backupFileDict[fileprop].relpath
+                    print("Already in DB: {}".format(relpath))
                 elif not self._attemptToAlias(fullpath, relpath):
                     self._copyToTempDir(fullpath, relpath, destPath)
 
@@ -136,4 +143,3 @@ class Database:
         for backupfile in self.backupFileList:
             f.write(backupfile.__repr__())
         print("Done.")
-
