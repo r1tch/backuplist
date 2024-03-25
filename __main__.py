@@ -5,7 +5,7 @@ import sys
 from database import Database
 
 def printUsage():
-    print("""Usage: 
+    print("""Usage:
 
 {0} add <path to mounted dvd>
        - record files of a freshly burnt DVD in the database

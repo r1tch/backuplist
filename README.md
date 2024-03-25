@@ -15,6 +15,10 @@ Backuplist will:
 - read burned discs and add contents to the database
 - find files in the database
 
+## Build the Binary
+
+...just use minipex. (TODO: more description about minipex...)
+
 ## Usage
 
 ### Step 1: Preparation
